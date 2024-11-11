@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: denizbank-service
+  profiles:
+    active: localhost
+  main:
+    allow-bean-definition-overriding: true
+info:
+  component: DenizBank Service
+
+
+server:
+  port: 9788
+logging:
+  level:
+    root:
+    com.eleiatech: DEBUG
+---
+spring:
+  config:
+    activate:
+      on-profile: localhost
+  cloud:
+    config:
+      uri: http://localhost:8888
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        default_schema: buysell
+  datasource:
+    url: "jdbc:postgresql://localhost:5433/buysell"
+    username: admin
+    password: 1234
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+
+---
+spring:
+  config:
+    activate:
+      on-profile: stage
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        default_schema: denizbank_management
+  datasource:
+    url: "jdbc:postgresql://postgres:5433/buysell"
+    username: admin
+    password: 1234
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+    instance-id: ${spring.application.name}:${random.uuid}
+

@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: zuul-edge-server
+  profiles:
+    active: stage
+
+info:
+  component: Zuul Edge Server
+
+server:
+  port: 8762
+
+zuul:
+  routes:
+    denizbank-service:
+      path: /api/1.0/denizbank/**
+      service-id: denizbank-service
+      strip-prefix: false
+
+endpoints:
+  routes:
+    sensitive: false
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            enabled: true
+            timeoutInMilliseconds: 60000
+---
+spring:
+  config:
+    activate:
+      on-profile: localhost
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+
+---
+spring:
+  config:
+    activate:
+      on-profile: stage
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    instance-id: ${spring.application.name}:${random.uuid}
+    lease-expiration-duration-in-seconds: 30
