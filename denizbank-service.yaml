@@ -1,4 +1,3 @@
-# Genel Ayarlar (Tüm Profiller İçin Ortak)
 spring:
   application:
     name: denizbank-service
@@ -20,12 +19,15 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://eureka-server:8761/eureka/  # Varsayılan değer
+      defaultZone: http://eureka-server:8761/eureka/  # Varsayılan değer, profil bazında değişecek
   instance:
     instance-id: ${spring.application.name}:${random.uuid}
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
+
+server:
+  port: 8080  # Varsayılan değer, profil bazında değişecek
 
 # Localhost Profili
 ---
