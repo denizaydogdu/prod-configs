@@ -36,7 +36,7 @@ spring:
     activate:
       on-profile: localhost
   datasource:
-    url: jdbc:postgresql://localhost:5433/buysell
+    url: jdbc:postgresql://localhost:5432/buysell
 
 eureka:
   client:
